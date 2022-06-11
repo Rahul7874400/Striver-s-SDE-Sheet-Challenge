@@ -1,0 +1,39 @@
+bool isFeassible(vector<int> time,int n,int m,long long limit){
+    int day=1;
+    long long sum=0;
+    for(int i=0;i<m;i++){
+        if(limit<time[i])
+            return false;
+        if(time[i]+sum>limit){
+            day++;
+            sum = time[i];
+        }
+        else
+            sum+=time[i];
+    }
+    
+    return (day<=n);
+}
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{
+    long long  ans,high = time[0],low= time[0];
+    for(int i=1;i<m;i++){
+        high+=time[i];
+        long long temp = time[i];
+        low = min(temp,low);
+    }
+    
+    while(low<=high){
+        long long mid = low  +(high-low)/2;
+        if(isFeassible(time,n,m,mid))
+        {
+            ans = mid;
+            high = mid-1;
+        }
+        else
+        {
+            low = mid+1;
+        }
+    }
+    return ans;
+}
